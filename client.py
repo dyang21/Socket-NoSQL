@@ -10,12 +10,11 @@ class client_Socket:
         self.ADDR_INFO = (self.SERVER, self.PORT)
         self.FORMAT = 'utf-8'
         self.DISCONNECT_MESSAGE = '[DISCONNECTED]'
-        #self.context = ssl.SSLContext(ssl.PROTOCOL_TLS_CLIENT)
 
-        self.context = ssl._create_unverified_context()
-        self.context.load_verify_locations('localhost.pem')
+        self.context = ssl.SSLContext(ssl.PROTOCOL_TLS_CLIENT)
+        
+        self.context.load_verify_locations('cert.pem')
 
-        #self.context.load_cert_chain(certfile="localhost.crt", keyfile="./private.key")
 
         if sock is None:
             self.sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)

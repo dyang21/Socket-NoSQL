@@ -12,10 +12,10 @@ class Serv_Socket:
         self.FORMAT = 'utf-8'
         self.DISCONNECT_MESSAGE = '[DISCONNECTED]'
 
-        ##self.context = ssl.SSLContext(ssl.PROTOCOL_TLS_SERVER) #custom context
-        self.context = ssl._create_unverified_context()
+        self.context = ssl.SSLContext(ssl.PROTOCOL_TLS_SERVER) #custom context
+        #self.context = ssl._create_unverified_context()
         
-        self.context.load_cert_chain('localhost.pem', 'localhost.key')
+        self.context.load_cert_chain('cert.pem', 'key.pem')
         
 
         if sock is None:
