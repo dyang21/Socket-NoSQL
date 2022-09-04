@@ -1,3 +1,4 @@
+from lzma import FORMAT_ALONE
 import socket
 import ssl
 
@@ -13,7 +14,7 @@ class client_Socket:
 
         self.context = ssl.SSLContext(ssl.PROTOCOL_TLS_CLIENT)
         
-        self.context.load_verify_locations('cert.pem')
+        self.context.load_verify_locations('cert.pem') #self signed ssl
 
 
         if sock is None:
@@ -21,15 +22,8 @@ class client_Socket:
         else:
             self.sock = sock
 
-'''
-    def send(self,msg) -> None:
-        message = msg.encode(self.FORMAT) #bytes
-        msg_length = len(message)
-        send_length = str(msg_length).encode(self.FORMAT)
-        send_length += b' ' * (self.HEADER - len(send_length)) #byte representation
-        self.sock.send(send_length)
-        self.sock.send(message)
-'''
+
+
 
 client_sock = client_Socket()
 with client_sock.sock as sock:
@@ -39,20 +33,20 @@ with client_sock.sock as sock:
 
 
 ##_client.send('Hello Server - From Client')
-'''
-msg = 'Hello Server - From Client'
-message = msg.encode(client_sock.FORMAT)
-msg_length = len(message)
-send_length = str(msg_length).encode(client_sock.FORMAT)
-send_length += b' ' * (client_sock.HEADER - len(send_length))
-s_client.send(send_length)
-s_client.send(message)
-'''
+
+def send(s_client,msg) -> None:
+    message = msg.encode(client_sock.FORMAT)
+    msg_length = len(message)
+    send_length = str(msg_length).encode(client_sock.FORMAT)
+    send_length += b' ' * (client_sock.HEADER - len(send_length))
+    s_client.send(send_length)
+    s_client.send(message)
 
 
+send(s_client,"Hello world")
 
 input()
+send(s_client,"[DISCONNECTED]")
 
-s_client.send('[DISCONNECTED]')
 
 

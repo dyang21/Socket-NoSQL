@@ -15,7 +15,7 @@ class Serv_Socket:
         self.context = ssl.SSLContext(ssl.PROTOCOL_TLS_SERVER) #custom context
         #self.context = ssl._create_unverified_context()
         
-        self.context.load_cert_chain('cert.pem', 'key.pem')
+        self.context.load_cert_chain('cert.pem', 'key.pem') #self signed ssl
         
 
         if sock is None:
@@ -38,6 +38,7 @@ class Serv_Socket:
                 if msg == self.DISCONNECT_MESSAGE:
                     print(f"[ACTIVE CONNECTIONS] {threading.activeCount() - 2}")
                     break
+
                 conn_socket.send("Msg received".encode(self.FORMAT))
         conn_socket.close()
     def start(self):
